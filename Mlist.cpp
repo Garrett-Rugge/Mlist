@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cassert>
+#include <cstdlib>
 
 using namespace std;
 
@@ -99,7 +100,7 @@ void Mlist<T>::del(T x){
 				lsize--;
 				return;
 			}
-			if(next == 0)
+			if(next == 0 and previous != 0)
 			{
 				last = previous;
 				last->rptr = 0;
@@ -107,27 +108,29 @@ void Mlist<T>::del(T x){
 				lsize--;
 				return;
 			}
-			if(previous == 0)
+			if(previous == 0 and next!=0)
 			{
 				first = ptr->rptr;
 				first->lptr = 0;
 				delete ptr;
 				lsize--;
 			}
-			else
+			else if(previous!=0 and next!=0)
 			{
 				previous->rptr=ptr->rptr;
 				delete ptr;
 				ptr = next;
 				lsize--;
 			}
+		}
+		
 		else
 		{
 			ptr=ptr->rptr;
 		}
 		
 		
-	}
+
 
 	}
 }
@@ -180,6 +183,23 @@ T Mlist<T>::operator[](unsigned int i){
 
 int main()
 {
+	Mlist<int> a;
+	a.add(5);
+	a.add(9);
+	assert(a.getfront() == 5);
+	assert(a.getback() == 9);
+	a.add(10);
+	assert(a.getback() == 10);
+	a.del(9);
+	assert(a.getfront() == 5);
+	assert(a.getback() == 10); 
+	a.add(1, 5);
+	assert(a.getfront() == 5);
+	assert(a.getback() == 10);
+
+	cout << "All tests Passed. \n";
+
+
 	return 0;	
 }
 
